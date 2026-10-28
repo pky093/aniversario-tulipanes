@@ -610,7 +610,7 @@ export function Gallery3D() {
         )}
       </div>
 
-      {/* ================= EXPANDED CENTER MODAL: PHOTO + REVERSO SIDE BY SIDE ================= */}
+      {/* ================= EXPANDED CENTER MODAL: SINGLE POLAROID THAT FLIPS 180° ================= */}
       {expandedMemory && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/65 backdrop-blur-md animate-fadeIn cursor-pointer"
@@ -618,18 +618,16 @@ export function Gallery3D() {
           role="dialog"
           aria-modal="true"
         >
-          {/* Clicking anywhere outside this container closes/minimizes it */}
+          {/* Clicking anywhere outside this centered card minimizes it */}
           <div
-            className="relative w-full max-w-4xl cursor-default"
+            className="relative w-full max-w-md cursor-default flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Top Floating Hint & Close Button */}
-            <div className="flex items-center justify-between mb-3 px-1">
-              <span className="text-xs font-medium text-white/85 flex items-center gap-1.5">
+            {/* Top Bar above the Polaroid */}
+            <div className="w-full flex items-center justify-between mb-3 px-1">
+              <span className="text-xs font-medium text-white/90 flex items-center gap-1.5">
                 <span>🌷 Recuerdo {expandedMemoryIndex + 1} de {memories.length}</span>
-                <span className="hidden sm:inline text-white/60">
-                  · Haz clic fuera para minimizar
-                </span>
+                <span className="text-white/60">· Clic fuera para minimizar</span>
               </span>
 
               <button
@@ -642,120 +640,84 @@ export function Gallery3D() {
               </button>
             </div>
 
-            {/* Main Expanded Showcase: Left = Enlarged Polaroid Photo/Video, Right = Secret Backside Note */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
-              {/* LEFT COLUMN: ENLARGED POLAROID (Also supports 3D Flip if clicked) */}
-              <div className="md:col-span-6 flex justify-center">
-                <div
-                  onClick={() => setIsModalFlipped((f) => !f)}
-                  className="w-full max-w-md perspective-1400 cursor-pointer"
-                  title="Haz clic para girar esta Polaroid en 3D"
-                >
-                  <div
-                    className="relative w-full h-full min-h-[460px] sm:min-h-[500px] preserve-3d transition-transform duration-700 ease-out"
-                    style={{
-                      transform: isModalFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                    }}
-                  >
-                    {/* Front of Enlarged Polaroid */}
-                    <div className="absolute inset-0 backface-hidden polaroid-paper rounded-3xl p-4 sm:p-5 pb-6 flex flex-col justify-between shadow-2xl">
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-tulip-200/80 backdrop-blur-xs -rotate-1 rounded-xs shadow-2xs border border-white/70 z-20 pointer-events-none" />
+            {/* Single Enlarged 3D Flipping Polaroid */}
+            <div
+              onClick={() => setIsModalFlipped((f) => !f)}
+              className="w-full perspective-1400 cursor-pointer select-none"
+              title="Haz clic en la tarjeta para girarla 180°"
+            >
+              <div
+                className="relative w-full h-[500px] sm:h-[540px] preserve-3d transition-transform duration-700 ease-out"
+                style={{
+                  transform: isModalFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                }}
+              >
+                {/* ================= FRONT: ENLARGED PHOTO / VIDEO ================= */}
+                <div className="absolute inset-0 backface-hidden polaroid-paper rounded-3xl p-4 sm:p-5 pb-6 flex flex-col justify-between shadow-2xl">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-tulip-200/80 backdrop-blur-xs -rotate-1 rounded-xs shadow-2xs border border-white/70 z-20 pointer-events-none" />
 
-                      <div className="relative w-full h-72 sm:h-80 rounded-2xl overflow-hidden bg-slate-950/5 border border-tulip-100">
-                        {expandedIsVideo ? (
-                          <video
-                            src={expandedMemory.image}
-                            controls
-                            autoPlay
-                            loop
-                            playsInline
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-full h-full object-contain bg-black"
-                          />
-                        ) : (
-                          <img
-                            src={expandedMemory.image}
-                            alt={expandedMemory.title}
-                            onError={(e) => {
-                              if (
-                                expandedMemory.fallbackImage &&
-                                e.currentTarget.src !== expandedMemory.fallbackImage
-                              ) {
-                                e.currentTarget.src = expandedMemory.fallbackImage;
-                              }
-                            }}
-                            className="w-full h-full object-cover"
-                          />
-                        )}
+                  <div className="relative w-full h-76 sm:h-84 rounded-2xl overflow-hidden bg-slate-950/5 border border-tulip-100">
+                    {expandedIsVideo ? (
+                      <video
+                        src={expandedMemory.image}
+                        controls
+                        autoPlay
+                        loop
+                        playsInline
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-full h-full object-contain bg-black"
+                      />
+                    ) : (
+                      <img
+                        src={expandedMemory.image}
+                        alt={expandedMemory.title}
+                        onError={(e) => {
+                          if (
+                            expandedMemory.fallbackImage &&
+                            e.currentTarget.src !== expandedMemory.fallbackImage
+                          ) {
+                            e.currentTarget.src = expandedMemory.fallbackImage;
+                          }
+                        }}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
 
-                        <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-semibold text-tulip-800 shadow-xs">
-                          {expandedMemory.date}
-                        </span>
-                      </div>
+                    <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-semibold text-tulip-800 shadow-xs">
+                      {expandedMemory.date}
+                    </span>
 
-                      <div className="pt-4 px-2 text-center">
-                        <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900">
-                          {expandedMemory.title}
-                        </h3>
-                        <p className="mt-1.5 font-handwriting text-2xl text-tulip-700">
-                          {expandedMemory.caption}
-                        </p>
-                        <div className="mt-2.5 flex items-center justify-center gap-1.5 text-xs text-slate-500">
-                          <MapPin className="w-3.5 h-3.5 text-tulip-500" />
-                          <span>{expandedMemory.location}</span>
-                        </div>
-                      </div>
-                    </div>
+                    <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/75 backdrop-blur-xs text-xs font-medium text-white shadow-xs">
+                      <RotateCw className="w-3.5 h-3.5" />
+                      Clic para girar al reverso
+                    </span>
+                  </div>
 
-                    {/* Back of Enlarged Polaroid (when flipped 180 deg) */}
-                    <div className="absolute inset-0 backface-hidden rotate-y-180 polaroid-back-paper rounded-3xl p-7 flex flex-col justify-between border border-tulip-200 shadow-2xl">
-                      <div className="flex items-start justify-between border-b border-tulip-200 pb-4">
-                        <div>
-                          <span className="text-xs font-semibold uppercase tracking-widest text-tulip-600 block">
-                            Reverso de la Polaroid
-                          </span>
-                          <h4 className="font-serif text-2xl font-semibold text-slate-900 mt-1">
-                            {expandedMemory.title}
-                          </h4>
-                        </div>
-                        <div className="w-14 h-16 rounded-xl border-2 border-dashed border-tulip-300 bg-tulip-50 flex flex-col items-center justify-center p-1 rotate-3">
-                          <span className="text-xl">🌷</span>
-                          <span className="text-[10px] font-bold text-tulip-700 uppercase">
-                            18 Meses
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="my-auto py-4 lined-note">
-                        <p className="font-handwriting text-2xl sm:text-3xl text-slate-800 leading-9">
-                          “{expandedMemory.secretBackNote}”
-                        </p>
-                      </div>
-
-                      <div className="pt-3 border-t border-tulip-200 flex items-center justify-between text-xs text-slate-500">
-                        <span>{expandedMemory.date}</span>
-                        <span className="text-tulip-600 font-semibold flex items-center gap-1">
-                          <RotateCw className="w-3.5 h-3.5" />
-                          Clic para volver a la foto
-                        </span>
-                      </div>
+                  <div className="pt-4 px-2 text-center my-auto">
+                    <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 leading-snug">
+                      {expandedMemory.title}
+                    </h3>
+                    <p className="mt-1.5 font-handwriting text-2xl text-tulip-700">
+                      {expandedMemory.caption}
+                    </p>
+                    <div className="mt-2 flex items-center justify-center gap-1.5 text-xs text-slate-500">
+                      <MapPin className="w-3.5 h-3.5 text-tulip-500" />
+                      <span>{expandedMemory.location}</span>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* RIGHT COLUMN: REVERSO DE LA POLAROID (SIEMPRE VISIBLE AL LADO) */}
-              <div className="md:col-span-6 flex flex-col justify-between polaroid-back-paper rounded-3xl p-6 sm:p-8 border border-tulip-200 shadow-2xl">
-                <div>
-                  <div className="flex items-start justify-between gap-4 border-b border-tulip-200/80 pb-4">
+                {/* ================= BACK: REVERSO DE LA POLAROID (180°) ================= */}
+                <div className="absolute inset-0 backface-hidden rotate-y-180 polaroid-back-paper rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-tulip-200 shadow-2xl">
+                  <div className="flex items-start justify-between gap-3 border-b border-tulip-200/80 pb-4">
                     <div>
                       <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-tulip-600">
                         <Heart className="w-3.5 h-3.5 fill-tulip-500 text-tulip-500" />
                         Reverso de nuestra foto
                       </span>
-                      <h3 className="mt-1 font-serif text-2xl sm:text-3xl font-semibold text-slate-900">
+                      <h4 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 mt-1">
                         {expandedMemory.title}
-                      </h3>
+                      </h4>
                       <p className="mt-1 text-xs font-medium text-slate-500 flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-tulip-500" />
                         <span>{expandedMemory.date}</span>
@@ -764,7 +726,6 @@ export function Gallery3D() {
                       </p>
                     </div>
 
-                    {/* Botanical Stamp */}
                     <div className="w-14 h-16 rounded-xl border-2 border-dashed border-tulip-300 bg-tulip-50/90 flex flex-col items-center justify-center text-center p-1.5 shrink-0 rotate-3 shadow-2xs">
                       <span className="text-xl leading-none">🌷</span>
                       <span className="text-[10px] font-bold tracking-tighter text-tulip-700 uppercase mt-1">
@@ -773,67 +734,61 @@ export function Gallery3D() {
                     </div>
                   </div>
 
-                  {/* Handwritten Secret Back Note */}
-                  <div className="mt-6 py-2 lined-note">
+                  <div className="my-auto py-4 lined-note">
                     <p className="font-handwriting text-2xl sm:text-3xl text-slate-800 leading-8">
                       “{expandedMemory.secretBackNote}”
                     </p>
                   </div>
-                </div>
 
-                {/* Bottom Signature & Navigation Controls inside Expanded View */}
-                <div className="mt-6 pt-4 border-t border-tulip-200/80">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="pt-3 border-t border-tulip-200/80 flex items-center justify-between text-xs text-slate-500">
                     <span className="font-serif italic text-sm text-tulip-800">
                       {coupleInfo.yourName}
                     </span>
-                    <button
-                      type="button"
-                      onClick={() => setIsModalFlipped((f) => !f)}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-tulip-600 hover:text-tulip-800 transition-colors"
-                    >
+                    <span className="text-tulip-600 font-semibold flex items-center gap-1">
                       <RotateCw className="w-3.5 h-3.5" />
-                      Girar tarjeta 3D
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsModalFlipped(false);
-                        setExpandedMemoryIndex(
-                          (prev) => (prev - 1 + memories.length) % memories.length
-                        );
-                      }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white hover:bg-tulip-50 border border-tulip-200 text-xs sm:text-sm font-medium text-slate-700 transition-all"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                      Anterior
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleCloseExpanded}
-                      className="px-4 py-2 rounded-xl bg-tulip-100/80 hover:bg-tulip-200/80 text-xs sm:text-sm font-semibold text-tulip-900 transition-all"
-                    >
-                      Cerrar vista
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsModalFlipped(false);
-                        setExpandedMemoryIndex((prev) => (prev + 1) % memories.length);
-                      }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-tulip-600 hover:bg-tulip-700 text-xs sm:text-sm font-medium text-white shadow-xs transition-all"
-                    >
-                      Siguiente
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
+                      Clic para volver a la foto
+                    </span>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Bottom Controls under the Enlarged Polaroid */}
+            <div className="mt-4 w-full flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsModalFlipped(false);
+                  setExpandedMemoryIndex(
+                    (prev) => (prev - 1 + memories.length) % memories.length
+                  );
+                }}
+                className="inline-flex items-center gap-1 px-4 py-2 rounded-full bg-white/90 hover:bg-white text-slate-800 text-xs font-semibold shadow-md transition-all"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Anterior
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsModalFlipped((f) => !f)}
+                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-tulip-600 hover:bg-tulip-700 text-white text-xs sm:text-sm font-semibold shadow-md transition-all"
+              >
+                <RotateCw className="w-4 h-4" />
+                {isModalFlipped ? 'Ver Foto Frontal' : 'Girar Polaroid (Ver Reverso)'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsModalFlipped(false);
+                  setExpandedMemoryIndex((prev) => (prev + 1) % memories.length);
+                }}
+                className="inline-flex items-center gap-1 px-4 py-2 rounded-full bg-white/90 hover:bg-white text-slate-800 text-xs font-semibold shadow-md transition-all"
+              >
+                Siguiente
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
