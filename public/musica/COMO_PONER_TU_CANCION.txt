@@ -1,0 +1,8 @@
+🎵 CÓMO COLOCAR TU CANCIÓN DE FONDO PARA SIEMPRE (VERCEL)
+
+1. Copia aquí tu canción favorita en formato MP3 y ponle el nombre:
+   cancion.mp3
+
+   (Ruta completa: public/musica/cancion.mp3)
+
+2. También puedes probar cualquier canción directamente desde la página web haciendo clic en el botón de música (abajo a la derecha) -> "Elegir canción (.mp3)".

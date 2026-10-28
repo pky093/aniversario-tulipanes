@@ -1,0 +1,10 @@
+📸 CÓMO COLOCAR TUS FOTOS REALES PARA LA GALERÍA 3D
+
+Opción 1 (Desde la web):
+- En la sección "Galería Polaroid Interactiva 3D", haz clic en el botón "Subir tus fotos" y luego en "Cambiar foto" sobre cada Polaroid.
+
+Opción 2 (Fijas en el proyecto para Vercel):
+- Guarda tus fotos en esta carpeta (public/fotos/), por ejemplo:
+  foto1.jpg, foto2.jpg, foto3.jpg...
+- Y en src/data/anniversaryData.js cambia el campo `image` de cada recuerdo a:
+  image: '/fotos/foto1.jpg'

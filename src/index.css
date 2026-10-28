@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #FDF9F5;
+    color: #2D2327;
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+/* 3D Perspective & Transform Utilities for the 3D Gallery */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1400 {
+  perspective: 1400px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Subtle paper texture & polaroid surface */
+.polaroid-paper {
+  background: linear-gradient(145deg, #FFFFFF 0%, #FDFBF9 65%, #F8F2EC 100%);
+  box-shadow:
+    0 20px 40px -15px rgba(117, 42, 68, 0.14),
+    0 4px 12px -2px rgba(45, 35, 39, 0.06),
+    inset 0 0 0 1px rgba(244, 191, 208, 0.35);
+}
+
+.polaroid-back-paper {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(252, 238, 242, 0.7) 0%, transparent 50%),
+    linear-gradient(135deg, #FFFDFB 0%, #FAF3EE 100%);
+  box-shadow:
+    0 20px 40px -15px rgba(117, 42, 68, 0.18),
+    inset 0 0 28px rgba(236, 149, 178, 0.12);
+}
+
+/* Lined paper effect for handwritten notes */
+.lined-note {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    rgba(236, 149, 178, 0.25) 31px,
+    rgba(236, 149, 178, 0.25) 32px
+  );
+  line-height: 32px;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FDF9F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #F4BFD0;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #EC95B2;
+}

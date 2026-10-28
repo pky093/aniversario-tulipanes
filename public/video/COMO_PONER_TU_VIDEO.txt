@@ -1,0 +1,11 @@
+🎬 CÓMO PONER TU VIDEO SORPRESA DE ANIVERSARIO
+
+1. Copia tu archivo de video dentro de esta carpeta:
+   d:\unity\KUICHI\PVA\aniversario-tulipanes\public\video\
+
+2. Ponle exactamente este nombre:
+   aniversario.mp4
+
+   (Ruta completa: public/video/aniversario.mp4)
+
+3. Cuando Leidi haga clic en el botón del final "❤️ Celebrar nuestro aniversario", se lanzará la lluvia de pétalos y se abrirá automáticamente el reproductor de cine con tu video.
